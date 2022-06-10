@@ -1,0 +1,24 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.config {
+  padding: 3rem 1rem;
+}
+
+body {
+  display: grid;
+  place-items: center;
+}
+
+.points input {
+  width: 3em;
+}
+
+.canvas {
+  margin: 2em;
+}
