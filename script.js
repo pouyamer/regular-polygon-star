@@ -3,7 +3,8 @@ const ctx = canvas.getContext("2d")
 
 const inpShowCircle = document.querySelector(".show-circle input")
 const inpPoints = document.querySelector(".points input")
-const inpOuterShape = document.querySelector(".show-outer-shape input")
+const inpShowPolygon = document.querySelector(".show-polygon input")
+const inpShowStar = document.querySelector(".show-star input")
 
 const { size } = config
 canvas.width = size.width
@@ -12,11 +13,7 @@ canvas.height = size.height
 // .9 is multiplied by the radius to make the circle a bit smaller
 const circleRadius = (size.width / 2) * 0.9
 
-const circle = new Circle(
-  new Point(0, 0),
-  circleRadius,
-  config.circle.strokeColor
-)
+const circle = new Circle(new Point(0, 0), circleRadius, config.circle.color)
 
 // Find the points on the circle
 const updatePoints = howManyPoints => {
@@ -37,7 +34,7 @@ let points = updatePoints(config.points)
 
 // Connect the points
 
-const drawInnerShape = points => {
+const drawStar = points => {
   for (let i = 0; i < points.length; i++) {
     for (let j = i; j < points.length; j++) {
       if (j === i + 1 || (j === points.length - 1 && i === 0)) {
@@ -47,25 +44,25 @@ const drawInnerShape = points => {
       const p1 = points[i]
       const p2 = points[j]
 
-      const line = new Line(p1, p2, config.lines.innerColor)
+      const line = new Line(p1, p2, config.star.starColor)
       line.draw()
     }
   }
 }
 
-const drawOuterShape = points => {
+const drawPolygon = points => {
   for (let i = 0; i < points.length; i++) {
     const p1 = points[i]
     const p2 = points[(i + 1) % points.length]
-    const line = new Line(p1, p2, config.lines.outerColor)
+    const line = new Line(p1, p2, config.star.polygonColor)
     line.draw()
   }
 }
 
 const drawShapes = () => {
   config.showCircle && circle.draw()
-  drawInnerShape(points)
-  config.showOuterShape && drawOuterShape(points)
+  config.showStar && drawStar(points)
+  config.showPolygon && drawPolygon(points)
 }
 
 // == Event Listeners ==
@@ -83,9 +80,15 @@ inpShowCircle.addEventListener("change", e => {
   drawShapes()
 })
 
-inpOuterShape.addEventListener("change", e => {
+inpShowPolygon.addEventListener("change", e => {
   ctx.clearRect(0, 0, size.width, size.height)
-  config.showOuterShape = e.target.checked
+  config.showPolygon = e.target.checked
+  drawShapes()
+})
+
+inpShowStar.addEventListener("change", e => {
+  ctx.clearRect(0, 0, size.width, size.height)
+  config.showStar = e.target.checked
   drawShapes()
 })
 

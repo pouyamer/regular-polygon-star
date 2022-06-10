@@ -38,7 +38,7 @@ class Line {
     const { x: x2, y: y2 } = this.point2
 
     ctx.strokeStyle = this.color
-    ctx.lineWidth = config.lines.lineWidth
+    ctx.lineWidth = config.star.width
     ctx.beginPath()
     ctx.moveTo(x1, y1)
     ctx.lineTo(x2, y2)
